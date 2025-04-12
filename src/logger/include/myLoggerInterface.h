@@ -22,14 +22,17 @@ enum MyLoggerOutputDestination
 class MyLoggerInterface
 {
   public:
-      // Log control APIs
-      virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel) = 0;
-      virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
-      virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
+    // Initialization APIs
+
+
+    // Log control APIs
+    virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel) = 0;
+    virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
+    virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
       
-      // Write to log APIs
-      virtual void Error(IN const std::string& logMsg) = 0;
-      virtual void Warn(IN const std::string& logMsg) = 0;
-      virtual void Debug(IN const std::string& logMsg) = 0;
-      virtual void Info(IN const std::string& logMsg) = 0;
+    // Write to log APIs
+    virtual void Error(IN const std::string& logMsg) = 0;
+    virtual void Warn(IN const std::string& logMsg) = 0;
+    virtual void Debug(IN const std::string& logMsg) = 0;
+    virtual void Info(IN const std::string& logMsg) = 0;
 };
