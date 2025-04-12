@@ -32,10 +32,4 @@ class MyLoggerInterface
       virtual void Warn(IN const std::string& logMsg) = 0;
       virtual void Debug(IN const std::string& logMsg) = 0;
       virtual void Info(IN const std::string& logMsg) = 0;
-
- protected:     
-      // Different write destination APIs.
-      // The other two destination options are set with their
-      // own interface.
-      virtual void MyLoggerWriteToStd(IN const std::string& logMsg) = 0;   
 };
