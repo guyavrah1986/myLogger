@@ -5,6 +5,8 @@
 using namespace std;
 
 BasicFileLogger::BasicFileLogger(IN const string& fileName)
+    : m_shouldRotateFile(false)
+    , m_file(fileName)
 {
     cout << "got file name:" << fileName << endl;
 }

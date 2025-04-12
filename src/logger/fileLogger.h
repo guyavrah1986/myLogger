@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <fstream>
 
 #include "../utils/utils.h"
 
@@ -62,4 +63,5 @@ class BasicFileLogger : public FileLoggerInterface
     
     protected:
         bool m_shouldRotateFile;
+        std::ofstream m_file;
 };
