@@ -1,6 +1,5 @@
 # CMakeLists.txt for the unit tests:
 # =================================
-
 message(STATUS "unit tests CMakeLists.txt of ${CMAKE_PROJECT_NAME}")
  
 set(CMAKE_THREAD_LIBS_INIT "-lpthread")
