@@ -1,0 +1,8 @@
+/home/guya/dev/myLogger/build/CMakeFiles/edit_cache.dir
+/home/guya/dev/myLogger/build/CMakeFiles/rebuild_cache.dir
+/home/guya/dev/myLogger/build/src/CMakeFiles/mainApplication.dir
+/home/guya/dev/myLogger/build/src/CMakeFiles/edit_cache.dir
+/home/guya/dev/myLogger/build/src/CMakeFiles/rebuild_cache.dir
+/home/guya/dev/myLogger/build/tests/CMakeFiles/unitTests.dir
+/home/guya/dev/myLogger/build/tests/CMakeFiles/edit_cache.dir
+/home/guya/dev/myLogger/build/tests/CMakeFiles/rebuild_cache.dir
