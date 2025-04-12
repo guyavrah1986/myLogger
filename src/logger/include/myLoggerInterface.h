@@ -39,16 +39,3 @@ class MyLoggerInterface
       // own interface.
       virtual void MyLoggerWriteToStd(IN const std::string& logMsg) = 0;   
 };
-
-/* 
-The purpose of this interface is to be able to add (if desired) some "extra"
-logic that should be taken into account when writing log messages to the 
-memory.
-*/
-class MyMemoryLoggerInterface
-{
-  public:
-    virtual void MyMemoryLoggerWriteToMemory(IN const std::string& logMsg) = 0;
-    virtual bool MyMemoryLoggerIsAbleWriteToMemory() = 0;
-    virtual void MyMemoryLoggerFlushMemory() = 0;
-};
