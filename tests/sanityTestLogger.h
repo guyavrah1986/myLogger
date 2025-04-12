@@ -2,9 +2,13 @@
 
 #include <gtest/gtest.h>
 
+#include "../src/logger/fileLogger.h"
+
 TEST(SanityTestLogger, createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists)
 { 
 	std::cout << "==== START SanityTestLogger::createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
-    EXPECT_EQ(1, 1);
+    BasicFileLogger fileLogger("dsfsfd");
+    bool retVal = fileLogger.FileLoggerShouldRotateFile();
+    EXPECT_EQ(false, retVal);
     std::cout << "==== END SanityTestLogger::createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
 }

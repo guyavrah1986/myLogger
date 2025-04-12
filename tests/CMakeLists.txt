@@ -21,4 +21,4 @@ message(STATUS "GTEST_LIBRARIES is: ${GTEST_LIBRARIES}")
 
 set(unitTestOutName unitTests)
 add_executable(${unitTestOutName} main.cpp)
-target_link_libraries(${unitTestOutName} ${GTEST_LIBRARY} pthread)
+target_link_libraries(${unitTestOutName} ${GTEST_LIBRARY} myLoggerLib pthread)
