@@ -1,10 +1,12 @@
+#include <iostream>
+
 #include "fileLogger.h"
 
 using namespace std;
 
 BasicFileLogger::BasicFileLogger(IN const string& fileName)
 {
-
+    cout << "got file name:" << fileName << endl;
 }
 
 BasicFileLogger::~BasicFileLogger()
@@ -14,7 +16,7 @@ BasicFileLogger::~BasicFileLogger()
 
 void BasicFileLogger::FileLoggerWriteToFile(IN const string& logMsg)
 {
-
+    cout << "got log message:" << logMsg << endl;
 }
 
 bool BasicFileLogger::FileLoggerShouldRotateFile() const
