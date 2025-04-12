@@ -50,6 +50,10 @@ class BasicFileLogger : public FileLoggerInterface
         explicit BasicFileLogger(IN const std::string& fileName);
         virtual ~BasicFileLogger();
 
+        // Non copiable class
+        BasicFileLogger(const BasicFileLogger& other) = delete;
+        BasicFileLogger& operator=(const BasicFileLogger& rhs) = delete;
+
         // Interface API 
         virtual void FileLoggerWriteToFile(IN const std::string& logMsg) override;
         virtual bool FileLoggerShouldRotateFile() const override;
