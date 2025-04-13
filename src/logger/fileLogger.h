@@ -2,6 +2,7 @@
 
 #include <string>
 #include <fstream>
+#include <ostream>
 
 #include "specificDestinationLoggerWriteInterface.h"
 #include "../utils/utils.h"
@@ -43,10 +44,10 @@ application is set to have its log rotate by the logrotate utility in Linux).
 The file itself is kept using the std::ofstream as a class member, thus leveraging
 its inherent RAII implementation. 
 */
-class BasicFileLogger : public FileLoggerInterface, ILogMessageObserver
+class BasicFileLogger : public FileLoggerInterface
 {
     public:
-        explicit BasicFileLogger(IN const std::string& fileName);
+        explicit BasicFileLogger();
         virtual ~BasicFileLogger();
 
         // Non copiable class
@@ -58,10 +59,52 @@ class BasicFileLogger : public FileLoggerInterface, ILogMessageObserver
         virtual void FileLoggerRotateFile() override;
         virtual void FileLoggerEnableDisableRotateFile(IN bool shouldRotateFile) override;
 
-        // Observer API
-        virtual void WriteLogMessage(const std::string& logMsg) override;
-
     protected:
         bool m_shouldRotateFile;
+};
+
+class FileLogger : public BasicFileLogger, public ILogMessageObserver
+{
+    public:
+        FileLogger(IN const std::string& fileName)
+            : BasicFileLogger()
+            , m_file(fileName)
+        {
+
+        }
+
+        virtual ~FileLogger() {}
+
+         // Observer API
+        void WriteLogMessage(const std::string& logMsg)
+        {
+            std::cout << "got log message:" << logMsg << std::endl;
+            m_file << logMsg.c_str() << std::endl;
+        }
+
+    protected:
         std::ofstream m_file;
+};
+
+class StdoutFileLogger : public BasicFileLogger, public ILogMessageObserver
+{
+    public:
+        StdoutFileLogger()
+            : BasicFileLogger()
+            , m_stdoutFile(std::cout)
+        {
+            std::cout << "created StdoutFileLogger" << std::endl;
+        }
+
+        virtual ~StdoutFileLogger() {}
+
+         // Observer API
+        void WriteLogMessage(const std::string& logMsg)
+        {
+            std::cout << "got log message:" << logMsg << std::endl;
+            m_stdoutFile << logMsg.c_str() << std::endl;
+        }
+
+    protected:
+        std::ostream& m_stdoutFile;
 };

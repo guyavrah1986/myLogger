@@ -4,22 +4,15 @@
 
 using namespace std;
 
-BasicFileLogger::BasicFileLogger(IN const string& fileName)
+BasicFileLogger::BasicFileLogger()
     : m_shouldRotateFile(false)
-    , m_file(fileName)
 {
-    cout << "got file name:" << fileName << endl;
+
 }
 
 BasicFileLogger::~BasicFileLogger()
 {
 
-}
-
-void BasicFileLogger::WriteLogMessage(const std::string& logMsg)
-{
-    cout << "got log message:" << logMsg << endl;
-    m_file << logMsg.c_str() << endl;
 }
 
 bool BasicFileLogger::FileLoggerShouldRotateFile() const
