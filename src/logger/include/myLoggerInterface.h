@@ -24,6 +24,9 @@ class MyWriteToLoggInterface
     virtual void Warn(IN const std::string& logMsg) = 0;
     virtual void Debug(IN const std::string& logMsg) = 0;
     virtual void Info(IN const std::string& logMsg) = 0;
+    virtual void Error(IN std::string& logMsg, IN const std::string& text) = 0;
+    virtual void Warn(IN std::string& logMsg, IN const std::string& text) = 0;
+    virtual void Debug(IN std::string& logMsg, IN const std::string& text) = 0;
     virtual void Info(IN std::string& logMsg, IN const std::string& text) = 0;
 };
 

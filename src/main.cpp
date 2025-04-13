@@ -41,16 +41,34 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 			m_classLogger->Error(m_classLogPrefix + logMsg);
 		}
 
+		virtual void Error(IN string& logMsg, IN const string& text) override
+		{
+			string newMsg = m_classLogPrefix + logMsg;
+			m_classLogger->Error(newMsg, text);
+		}
+
 		virtual void Warn(IN const string& logMsg) override
 		{
 			m_classLogger->Warn(m_classLogPrefix + logMsg);
 		}
 		
+		virtual void Warn(IN string& logMsg, IN const string& text) override
+		{
+			string newMsg = m_classLogPrefix + logMsg;
+			m_classLogger->Warn(newMsg, text);
+		}
+
 		virtual void Debug(IN const string& logMsg) override
 		{
 			m_classLogger->Debug(m_classLogPrefix +  logMsg);
 		}
 		
+		virtual void Debug(IN string& logMsg, IN const string& text) override
+		{
+			string newMsg = m_classLogPrefix + logMsg;
+			m_classLogger->Debug(newMsg, text);
+		}
+
 		virtual void Info(IN const string& logMsg) override
 		{
 			m_classLogger->Info(m_classLogPrefix + logMsg);

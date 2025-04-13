@@ -52,6 +52,9 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         virtual void Warn(IN const std::string& logMsg) override;
         virtual void Debug(IN const std::string& logMsg) override;
         virtual void Info(IN const std::string& logMsg) override;
+        virtual void Error(IN std::string& logMsg, IN const std::string& text) override;
+        virtual void Warn(IN std::string& logMsg, IN const std::string& text) override;
+        virtual void Debug(IN std::string& logMsg, IN const std::string& text) override;
         virtual void Info(IN std::string& logMsg, IN const std::string& text) override;
 
 
@@ -61,6 +64,7 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
 
     private:
         mutable std::mutex mtx;
+        const std::string m_curlyBracesTextReplacment = "{}";
         bool shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const;
         bool disableEnableLogger(IN const enum MyLoggerOutputDestination outputDestination, IN const bool isToEnable);
 };
