@@ -26,7 +26,7 @@ class BasicLogger : public MyLoggerInterface, ILogMessageSubject
 {
     public:
         BasicLogger();
-        BasicLogger(IN const std::string& fileName);
+        explicit BasicLogger(IN const std::string& fileName);
         virtual ~BasicLogger();
 
         // Non copyable class

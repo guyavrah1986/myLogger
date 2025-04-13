@@ -8,12 +8,19 @@ using namespace std;
 BasicLogger::BasicLogger()
     : m_currLogLevel(MY_LOGGER_INFO)
 {
-    // The defualt ctor created the stdout logger type 
-    // It also set the log level to INFO
-    cout << "sizeof(StdoutFileLogger) is:" << sizeof(StdoutFileLogger) << endl;
-
+    cout << "log level set to:" << m_currLogLevel << endl;
     auto stdoutObserver = new(StdoutFileLogger);
     this->Attach(stdoutObserver, MY_LOGGER_STDOUT);
+    cout << "added logger type:" << MY_LOGGER_STDOUT << endl;
+}
+
+BasicLogger::BasicLogger(IN const string& fileName)
+    : BasicLogger()
+{
+    cout << "about to add a FileLogger that will log into file:" << fileName << endl;
+    auto fileObserver = new FileLogger(fileName);
+    this->Attach(fileObserver, MY_LOGGER_FILE);
+    cout << "added logger type:" << MY_LOGGER_FILE << endl;
 }
 
 BasicLogger::~BasicLogger()
@@ -21,10 +28,10 @@ BasicLogger::~BasicLogger()
     cout << "about to remove all observers from the map" << endl;
     for (auto const&it : m_observersMap)
     {
-        if (it.first == MY_LOGGER_STDOUT)
-        {
-            delete it.second;
-        }
+        //if (it.first == MY_LOGGER_STDOUT)
+        //{
+        delete it.second;
+        //}
     }
 
     cout << "done removing all observers from the map" << endl;
