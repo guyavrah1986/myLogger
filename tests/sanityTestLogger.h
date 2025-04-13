@@ -1,6 +1,8 @@
 #pragma once
 
 #include <filesystem>
+#include <sstream>
+
 #include <gtest/gtest.h>
 
 #include "../src/logger/fileLogger.h"
@@ -23,21 +25,44 @@ TEST(SanityTestLogger, createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThis
         std::remove(fullPath.c_str());
     }
 
-    BasicFileLogger fileLogger(fullPath);
-
-    // Make sure the file exists
-    bool retVal = std::filesystem::exists(std::filesystem::path(fullPath));
-    EXPECT_EQ(true, retVal);
+    {
+        BasicFileLogger fileLogger(fullPath);
+        bool retVal = std::filesystem::exists(std::filesystem::path(fullPath));
+        EXPECT_EQ(true, retVal);
+        
+        // Make sure the rotation logic is disabled
+        retVal = fileLogger.FileLoggerShouldRotateFile();
+        EXPECT_EQ(false, retVal);
     
-    // Make sure the rotation logic is disabled
-    retVal = fileLogger.FileLoggerShouldRotateFile();
-    EXPECT_EQ(false, retVal);
+        // Write one line to the file
+        const std::string logMsg = "this is line 1";
+        fileLogger.WriteLogMessage(logMsg);
+    
+        // Make sure this line is the first line in the file
+        #include <fstream>
+        std::ifstream infile(fullPath);
+        std::string line;
+        size_t numLines = 0;
+        while (std::getline(infile, line))
+        {
+            if (!line.empty() && line[line.length()-1] == '\n') {
+                line.erase(line.length()-1);
+            }
+
+            std::istringstream iss(line);
+            ++numLines;
+            std::cout << "line:[" << numLines << "]:" << line << std::endl; 
+        }
+    
+        EXPECT_EQ(true, numLines == 1);
+        EXPECT_EQ(line.compare(logMsg), 0);
+    }
 
     // Cleanup before terminating test
     if (std::filesystem::exists(std::filesystem::path(fullPath.c_str())))
     {
         std::cout << "removing file from current run" << std::endl;
-        std::remove(fullPath.c_str());
+        //std::remove(fullPath.c_str());
     }
     
     std::cout << "==== END SanityTestLogger::createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;

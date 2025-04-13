@@ -19,16 +19,17 @@ BasicFileLogger::~BasicFileLogger()
 void BasicFileLogger::WriteLogMessage(const std::string& logMsg)
 {
     cout << "got log message:" << logMsg << endl;
+    m_file << logMsg.c_str() << endl;
 }
 
 bool BasicFileLogger::FileLoggerShouldRotateFile() const
 {
-    return false;
+    return this->m_shouldRotateFile;
 }
 
 void BasicFileLogger::FileLoggerRotateFile()
 {
-    // this function does not do anything
+    // This function does not do anything
 }
 
 void BasicFileLogger::FileLoggerEnableDisableRotateFile(IN bool shouldRotateFile)
