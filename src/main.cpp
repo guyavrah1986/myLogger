@@ -5,47 +5,53 @@
 
 using namespace std;
 
-class SampleClass
+class SampleClassWithBasicLog : public MyWriteToLoggInterface
 {
 	public:
-		SampleClass()
+		SampleClassWithBasicLog()
 		{
-			cout << "SampleClass::SampleClass" << endl;
+			cout << "SampleClassWithBasicLog::SampleClassWithBasicLog" << endl;
 		}
 
-		~SampleClass()
+		~SampleClassWithBasicLog()
 		{
-			cout << "SampleClass::~SampleClass" << endl;
+			cout << "SampleClassWithBasicLog::~SampleClassWithBasicLog" << endl;
 		}
 
-		void InitLog(MyLoggerInterface* logger)
+		void someFunc()
+		{
+			const string msg = "some message";
+			Info(msg);
+		}
+
+		void InitLog(MyWriteToLoggInterface* logger)
 		{
 			this->m_classLogger = logger;
 		}
 
 		virtual void Error(IN const string& logMsg) override
 		{
-			
+			m_classLogger->Error(m_classLogPrefix + logMsg);
 		}
 
 		virtual void Warn(IN const string& logMsg) override
 		{
-
+			m_classLogger->Warn(m_classLogPrefix + logMsg);
 		}
 		
 		virtual void Debug(IN const string& logMsg) override
 		{
-
+			m_classLogger->Debug(m_classLogPrefix +  logMsg);
 		}
 		
 		virtual void Info(IN const string& logMsg) override
 		{
-
+			m_classLogger->Info(m_classLogPrefix + logMsg);
 		}
 
 	private:
-		const string m_classLogPrefix = "SampleClass:";
-		MyLoggerInterface* m_classLogger;
+		const string m_classLogPrefix = "SampleClassWithBasicLog:";
+		MyWriteToLoggInterface* m_classLogger;
 };
 
 void createLoggerForStdoutOnlyExample()
@@ -109,9 +115,27 @@ void createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample()
 
 	// By default the BasicLogger outputs message only to stdout
 	// and is set to log level INFO
-	BasicLogger basicLogger;
+	const string fileName = "exampleFile.txt";
+	const filesystem::path cwdPath= std::filesystem::current_path(); 
+    cout << funcName + "current working directory is:" << cwdPath.c_str() << endl;
+    filesystem::path fullPath = cwdPath;
+    fullPath /= fileName;
+	cout << funcName + "creating logger for both stdout and file:" << fullPath.c_str() << endl;
+	
+	// Make sure there is no file from previous execution
+	if (filesystem::exists(filesystem::path(fullPath.c_str())))
+	{
+		cout << "removing file:" << fullPath.c_str() << " from prev runs" << endl;
+		remove(fullPath.c_str());
+	}
+
+	BasicLogger basicLogger(fullPath.c_str());
 	string logMsg = "this is the first log message for the class with its own tag sample";
 	basicLogger.Info(logMsg);
+
+	SampleClassWithBasicLog c;
+	c.InitLog(&basicLogger);
+	c.someFunc();
 	cout << funcName + "END" << endl;
 } 
 

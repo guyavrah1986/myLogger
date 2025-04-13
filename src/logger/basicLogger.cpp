@@ -17,7 +17,7 @@ BasicLogger::BasicLogger()
 BasicLogger::BasicLogger(IN const string& fileName)
     : BasicLogger()
 {
-    cout << "about to add a FileLogger that will log into file:" << fileName << endl;
+    cout << "about to add a BasicLogger that will log into file:" << fileName << endl;
     auto fileObserver = new FileLogger(fileName);
     this->Attach(fileObserver, MY_LOGGER_FILE);
     cout << "added logger type:" << MY_LOGGER_FILE << endl;

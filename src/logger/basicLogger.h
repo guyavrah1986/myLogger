@@ -24,7 +24,7 @@ Note that because it is a map in which the key is the output
 destination enum, so it is not possible to have several specific loggers from the same
 type (for example, if the user wish to have two log files).
 */
-class BasicLogger : public MyLoggerInterface, ILogMessageSubject
+class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface, public ILogMessageSubject
 {
     public:
         BasicLogger();
