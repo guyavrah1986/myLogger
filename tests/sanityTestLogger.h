@@ -90,7 +90,8 @@ TEST(SanityTestLogger, createMemoryOnlyLoggerWriteSingleInfoMessage_VerifyOnlyTh
 { 
 	std::cout << "==== START SanityTestLogger::createMemoryOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
     BasicMemoryLogger memLogger;
-    bool retVal = memLogger.MemoryLoggerIsAbleWriteToMemory();
+    const std::string msg1 = "this is the 1st message";
+    bool retVal = memLogger.MemoryLoggerIsAbleWriteToMemory(msg1);
     EXPECT_EQ(true, retVal);
     std::cout << "==== END SanityTestLogger::createMemoryOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
 }

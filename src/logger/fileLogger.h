@@ -72,6 +72,10 @@ class FileLogger : public BasicFileLogger, public ILogMessageObserver
 
         virtual ~FileLogger() {}
 
+        // Non copiable class
+        FileLogger(const FileLogger& other) = delete;
+        FileLogger& operator=(const FileLogger& rhs) = delete;
+
          // Observer API
         void WriteLogMessage(const std::string& logMsg)
         {
