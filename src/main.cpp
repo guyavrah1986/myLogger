@@ -51,6 +51,11 @@ void createLoggerForStdoutAndFileExample()
 	stdoutAndFileLogger.MyLoggerDisableOutputDestination(MY_LOGGER_FILE);
 	logMsg = "this message will NOT be printed to file:" + fullFileName;
 	stdoutAndFileLogger.Info(logMsg);
+
+	// Now enable back the file logger
+	logMsg = "enabled back the file logger, so this line will be printed to file:" + fullFileName;
+	stdoutAndFileLogger.MyLoggerEnableOutputDestination(MY_LOGGER_FILE);
+	stdoutAndFileLogger.Info(logMsg);
 	cout << funcName + "END" << endl;
 }
 

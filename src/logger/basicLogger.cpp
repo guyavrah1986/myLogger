@@ -41,36 +41,12 @@ void BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToS
 
 void BasicLogger::MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
-    // Call the Subject Attach API
-    if (MY_LOGGER_STDOUT == outputDestination)
-    {
-        // here we only need to actually enable it
-        return;
-    }
-
-    // In the other types of output destinations, we need to make sure that 
-    // indeed there is the respective ILogMessageObserver object, if not, print
-    // a message and return false ("error")
+    this->disableEnableLogger(outputDestination, true);
 }
 
 void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
-    auto const& it = m_observersMap.find(outputDestination);
-    if (it == m_observersMap.end())
-    {
-        cout << "the output destination type:" << outputDestination << ", is not present (make sure you initialized it)" << endl;
-        return;
-    }
-
-    LoggerIsEnabledPair& tmp = m_observersMap[outputDestination];
-    if (nullptr == tmp.first)
-    {
-        cout << "the logger of type:" << outputDestination << " is NULL, aborting disabling it" << endl;
-        return;  
-    }
-
-    tmp.second = false;
-    cout << "disabled logger of type:" << outputDestination << endl;
+    this->disableEnableLogger(outputDestination, false);
 }
 
 /*
@@ -183,4 +159,25 @@ bool BasicLogger::shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLev
     }
 
     return false;
+}
+
+bool BasicLogger::disableEnableLogger(IN const enum MyLoggerOutputDestination outputDestination, IN const bool isToEnable)
+{
+    auto const& it = m_observersMap.find(outputDestination);
+    if (it == m_observersMap.end())
+    {
+        cout << "the output destination type:" << outputDestination << ", is not present (make sure you initialized it)" << endl;
+        return false;
+    }
+
+    LoggerIsEnabledPair& tmp = m_observersMap[outputDestination];
+    if (nullptr == tmp.first)
+    {
+        cout << "the logger of type:" << outputDestination << " is NULL, aborting disabling it" << endl;
+        return false;
+    }
+
+    tmp.second = isToEnable;
+    cout << "set logger of type:" << outputDestination << " should print message to:" << isToEnable <<  endl;
+    return true;
 }

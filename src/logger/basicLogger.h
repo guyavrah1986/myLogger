@@ -58,4 +58,5 @@ class BasicLogger : public MyLoggerInterface, ILogMessageSubject
 
     private:
         bool shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const;
+        bool disableEnableLogger(IN const enum MyLoggerOutputDestination outputDestination, IN const bool isToEnable);
 };
