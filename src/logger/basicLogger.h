@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 
 #include "include/myLoggerInterface.h"
 #include "specificDestinationLoggerWriteInterface.h"
@@ -59,6 +60,7 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         std::map<MyLoggerOutputDestination, LoggerIsEnabledPair> m_observersMap;
 
     private:
+        mutable std::mutex mtx;
         bool shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const;
         bool disableEnableLogger(IN const enum MyLoggerOutputDestination outputDestination, IN const bool isToEnable);
 };

@@ -36,16 +36,19 @@ BasicLogger::~BasicLogger()
 
 void BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet)
 {
+    lock_guard<mutex> lock(mtx);
     m_currLogLevel = logLevelToSet;
 }
 
 void BasicLogger::MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
+    lock_guard<mutex> lock(mtx);
     this->disableEnableLogger(outputDestination, true);
 }
 
 void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
+    lock_guard<mutex> lock(mtx);
     this->disableEnableLogger(outputDestination, false);
 }
 
@@ -67,6 +70,7 @@ bool BasicLogger::MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* log
 
 void BasicLogger::Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType)
 {
+
     if (nullptr == observer)
     {
         cout << "got a NULL observer" << endl;
@@ -118,6 +122,7 @@ void BasicLogger::SendMessageToAllOutputDestinations(IN const string& logMsg)
 
 void BasicLogger::Error(IN const string& logMsg)
 {
+    lock_guard<mutex> lock(mtx);
     if (shouldWriteLogMessage(MY_LOGGER_ERROR))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
@@ -126,6 +131,7 @@ void BasicLogger::Error(IN const string& logMsg)
 
 void BasicLogger::Warn(IN const string& logMsg)
 {
+    lock_guard<mutex> lock(mtx);
     if (shouldWriteLogMessage(MY_LOGGER_WARN))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
@@ -134,6 +140,7 @@ void BasicLogger::Warn(IN const string& logMsg)
 
 void BasicLogger::Debug(IN const string& logMsg)
 {
+    lock_guard<mutex> lock(mtx);
     if (shouldWriteLogMessage(MY_LOGGER_DEBUG))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
@@ -142,6 +149,7 @@ void BasicLogger::Debug(IN const string& logMsg)
 
 void BasicLogger::Info(IN const string& logMsg)
 {
+    lock_guard<mutex> lock(mtx);
     if (shouldWriteLogMessage(MY_LOGGER_INFO))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
@@ -150,6 +158,7 @@ void BasicLogger::Info(IN const string& logMsg)
 
 void BasicLogger::Info(IN string& logMsg, IN const string& text)
 {
+    lock_guard<mutex> lock(mtx);
     cout << "before replace logMsg is:" << logMsg << endl;
     UtilsReplaceStrings(logMsg, "{}", text);
     cout << "after replace logMsg is:" << logMsg << endl;
