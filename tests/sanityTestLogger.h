@@ -62,7 +62,7 @@ TEST(SanityTestLogger, createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThis
     if (std::filesystem::exists(std::filesystem::path(fullPath.c_str())))
     {
         std::cout << "removing file from current run" << std::endl;
-        //std::remove(fullPath.c_str());
+        std::remove(fullPath.c_str());
     }
     
     std::cout << "==== END SanityTestLogger::createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
