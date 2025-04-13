@@ -68,6 +68,21 @@ TEST(SanityTestLogger, createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThis
     std::cout << "==== END SanityTestLogger::createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
 }
 
+TEST(SanityTestLogger, createStdoutLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists)
+{ 
+	std::cout << "==== START SanityTestLogger::createStdoutLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
+    StdoutFileLogger stdoutLogger;
+    
+    // Make sure the rotation logic is disabled
+    bool retVal = stdoutLogger.FileLoggerShouldRotateFile();
+    EXPECT_EQ(false, retVal);
+
+    // Write single log message
+    const std::string logMsg = "this is a message to cout";
+    stdoutLogger.WriteLogMessage(logMsg);
+    std::cout << "==== END SanityTestLogger::createStdoutLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
+}
+
 TEST(SanityTestLogger, createMemoryOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists)
 { 
 	std::cout << "==== START SanityTestLogger::createMemoryOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThisLineExists ====" << std::endl;
