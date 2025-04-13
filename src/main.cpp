@@ -59,9 +59,22 @@ void createLoggerForStdoutAndFileExample()
 	cout << funcName + "END" << endl;
 }
 
+void createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample()
+{
+	const string funcName = "createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample - ";
+	cout << funcName + "START" << endl;
+
+	// By default the BasicLogger outputs message only to stdout
+	// and is set to log level INFO
+	BasicLogger basicLogger;
+	string logMsg = "this is the first log message for the class with its own tag sample";
+	basicLogger.Info(logMsg);
+	cout << funcName + "END" << endl;
+} 
 /*
 This is the entry point for a sample application that utilizes the
-different logger capabilities. 
+different logger capabilities. Uncomment the desired sample method
+you wish to run.
 */
 int main(int argc, char** argv)
 {
@@ -72,7 +85,8 @@ int main(int argc, char** argv)
 	}
 	
 	//createLoggerForStdoutOnlyExample();
-	createLoggerForStdoutAndFileExample();
+	//createLoggerForStdoutAndFileExample();
+	createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample();
 	cout << "main - end" << endl;
 	return 0;
 }
