@@ -6,6 +6,8 @@
 #include "include/myLoggerInterface.h"
 #include "specificDestinationLoggerWriteInterface.h"
 
+typedef std::pair<ILogMessageObserver*, bool> LoggerIsEnabledPair;
+
 /*
 This is the base class that holds implementation of the common functunalities for
 any logger that will be used. It can be considerd as "loggers orchatrator".
@@ -52,7 +54,7 @@ class BasicLogger : public MyLoggerInterface, ILogMessageSubject
 
     protected:
         enum MyLoggerLogLevel m_currLogLevel;
-        std::map<MyLoggerOutputDestination, ILogMessageObserver*> m_observersMap;
+        std::map<MyLoggerOutputDestination, LoggerIsEnabledPair> m_observersMap;
 
     private:
         bool shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const;

@@ -28,10 +28,7 @@ BasicLogger::~BasicLogger()
     cout << "about to remove all observers from the map" << endl;
     for (auto const&it : m_observersMap)
     {
-        //if (it.first == MY_LOGGER_STDOUT)
-        //{
-        delete it.second;
-        //}
+        delete it.second.first;
     }
 
     cout << "done removing all observers from the map" << endl;
@@ -58,11 +55,22 @@ void BasicLogger::MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDe
 
 void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
-    if (m_observersMap.find(outputDestination) == m_observersMap.end())
+    auto const& it = m_observersMap.find(outputDestination);
+    if (it == m_observersMap.end())
     {
         cout << "the output destination type:" << outputDestination << ", is not present (make sure you initialized it)" << endl;
         return;
     }
+
+    LoggerIsEnabledPair& tmp = m_observersMap[outputDestination];
+    if (nullptr == tmp.first)
+    {
+        cout << "the logger of type:" << outputDestination << " is NULL, aborting disabling it" << endl;
+        return;  
+    }
+
+    tmp.second = false;
+    cout << "disabled logger of type:" << outputDestination << endl;
 }
 
 /*
@@ -89,7 +97,8 @@ void BasicLogger::Attach(IN ILogMessageObserver* observer, IN const enum MyLogge
         return;
     }
 
-    auto [it, b] = m_observersMap.try_emplace(loggerType, observer);
+    LoggerIsEnabledPair loggerToAddPair(observer, true);
+    auto [it, b] = m_observersMap.try_emplace(loggerType, loggerToAddPair);
     if (false == b)
     {
         cout << "trying to add a logger of type:" << loggerType << " did not work, there is already one" << endl;
@@ -107,7 +116,7 @@ void BasicLogger::Detach(IN ILogMessageObserver* observer, IN const enum MyLogge
         cout << "logger of type:" << loggerType << " does not exist, do not remove the provided logger" << endl;
         return;
     }
-    else if (it->second != observer)
+    else if (it->second.first != observer)
     {
         cout << "logger of type:" << loggerType << " exists, but the provided one is not the one in the map" << endl;
         return;
@@ -122,7 +131,12 @@ void BasicLogger::SendMessageToAllOutputDestinations(IN const string& logMsg)
 {
     for (auto const& it : m_observersMap)
     {
-        it.second->WriteLogMessage(logMsg);
+        if (nullptr == it.second.first || false == it.second.second)
+        {
+            continue;
+        }
+
+        it.second.first->WriteLogMessage(logMsg);
     }
 }
 

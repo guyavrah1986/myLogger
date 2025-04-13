@@ -42,19 +42,15 @@ void createLoggerForStdoutAndFileExample()
 	}
 
 	string fullFileName(fullPath.c_str());
-	BasicLogger basicLogger(fullFileName);
+	BasicLogger stdoutAndFileLogger(fullFileName);
 	string logMsg = "this is the first log message, it will be printed to console and to file:" + fullFileName;
-	basicLogger.Info(logMsg);
+	stdoutAndFileLogger.Info(logMsg);
 	
-	
-	
-	/*
-	basicLogger.MyLoggerSetLogLevel(MY_LOGGER_DEBUG);
-	logMsg = "this message should NOT be printed";
-	basicLogger.Info(logMsg);
-	logMsg = "this message would be printed";
-	basicLogger.Error(logMsg);
-	*/
+	// Now disable the file log and make sure the next message 
+	// is NOT written to it but ONLY to stdout
+	stdoutAndFileLogger.MyLoggerDisableOutputDestination(MY_LOGGER_FILE);
+	logMsg = "this message will NOT be printed to file:" + fullFileName;
+	stdoutAndFileLogger.Info(logMsg);
 	cout << funcName + "END" << endl;
 }
 
