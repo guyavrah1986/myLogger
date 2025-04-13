@@ -16,7 +16,7 @@ BasicFileLogger::~BasicFileLogger()
 
 }
 
-void BasicFileLogger::FileLoggerWriteToFile(IN const string& logMsg)
+void BasicFileLogger::WriteLogMessage(const std::string& logMsg)
 {
     cout << "got log message:" << logMsg << endl;
 }

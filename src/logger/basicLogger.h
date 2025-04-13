@@ -34,5 +34,5 @@ class BasicLogger : public MyLoggerInterface
 
     protected:
         enum MyLoggerLogLevel m_currLogLevel;
-        std::unique_ptr<FileLoggerInterface> m_stdoutLogger;
+        //std::unique_ptr<FileLoggerInterface> m_stdoutLogger;
 };

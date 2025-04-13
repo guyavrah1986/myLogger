@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 
+#include "specificDestinationLoggerWriteInterface.h"
 #include "../utils/utils.h"
 
 /* 
@@ -12,12 +13,6 @@ logic that should be taken into account when writing log messages to the a file.
 class FileLoggerInterface
 {
   public:
-    /*
-    This is the most fundanmental API of this interface. It uses to write
-    the provided log message to the file.
-    */
-    virtual void FileLoggerWriteToFile(IN const std::string& logMsg) = 0;
-    
     /*
     This API is used to check whether or not log rotation is desired.
     */
@@ -43,9 +38,12 @@ class FileLoggerInterface
 This class is the most simple implementation for the file logging capabilities.
 It does not add any sophisticated logic/mechanism to the file rotation, which makes 
 it a good candidate for the stdout logger and also for a regular file (on host file
-system) that does not wish to have file rotation capabilities.
+system) that does not wish to have file rotation capabilities (for example, if the
+application is set to have its log rotate by the logrotate utility in Linux).
+The file itself is kept using the std::ofstream as a class member, thus leveraging
+its inherent RAII implementation. 
 */
-class BasicFileLogger : public FileLoggerInterface
+class BasicFileLogger : public FileLoggerInterface, ILogMessageObserver
 {
     public:
         explicit BasicFileLogger(IN const std::string& fileName);
@@ -55,12 +53,14 @@ class BasicFileLogger : public FileLoggerInterface
         BasicFileLogger(const BasicFileLogger& other) = delete;
         BasicFileLogger& operator=(const BasicFileLogger& rhs) = delete;
 
-        // Interface API 
-        virtual void FileLoggerWriteToFile(IN const std::string& logMsg) override;
+        // FileLogger interface API 
         virtual bool FileLoggerShouldRotateFile() const override;
         virtual void FileLoggerRotateFile() override;
         virtual void FileLoggerEnableDisableRotateFile(IN bool shouldRotateFile) override;
-    
+
+        // Observer API
+        virtual void WriteLogMessage(const std::string& logMsg) override;
+
     protected:
         bool m_shouldRotateFile;
         std::ofstream m_file;
