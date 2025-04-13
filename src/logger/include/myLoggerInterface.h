@@ -26,9 +26,10 @@ class MyLoggerInterface
 
 
     // Log control APIs
-    virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel) = 0;
-    virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
-    virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination) = 0;
+    virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) = 0;
+    virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
+    virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
+    //virtual bool MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType) = 0;
       
     // Write to log APIs
     virtual void Error(IN const std::string& logMsg) = 0;

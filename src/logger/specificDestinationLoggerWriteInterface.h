@@ -2,18 +2,21 @@
 
 #include <string>
 
+#include "include/myLoggerInterface.h"
+#include "../utils/utils.h"
+
 class ILogMessageObserver
 {
     public:
         virtual ~ILogMessageObserver(){};
-        virtual void WriteLogMessage(const std::string& logMsg) = 0;
+        virtual void WriteLogMessage(IN const std::string& logMsg) = 0;
 };
    
 class ILogMessageSubject
 {
     public:
         virtual ~ILogMessageSubject(){};
-        virtual void Attach(ILogMessageObserver* observer) = 0;
-        virtual void Detach(ILogMessageObserver* observer) = 0;
+        virtual void Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) = 0;
+        virtual void Detach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) = 0;
         virtual void SendMessageToAllOutputDestinations() = 0;
 };
