@@ -13,8 +13,10 @@ void createLoggerForStdoutOnlyExample()
 	BasicLogger basicLogger;
 	string logMsg = "this is the first log message";
 	basicLogger.Info(logMsg);
-
-	//cout << funcName + "END" << endl;
+	basicLogger.MyLoggerSetLogLevel(MY_LOGGER_DEBUG);
+	logMsg = "this message should NOT be printed";
+	basicLogger.Info(logMsg);
+	cout << funcName + "END" << endl;
 }
 
 /*
@@ -30,6 +32,6 @@ int main(int argc, char** argv)
 	}
 	
 	createLoggerForStdoutOnlyExample();
-	//cout << "main - end" << endl;
+	cout << "main - end" << endl;
 	return 0;
 }

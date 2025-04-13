@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <ostream>
 
 #include "specificDestinationLoggerWriteInterface.h"
 
@@ -89,7 +88,6 @@ class StdoutFileLogger : public BasicFileLogger, public ILogMessageObserver
     public:
         StdoutFileLogger()
             : BasicFileLogger()
-            //, m_stdoutFile(std::cout)
         {
             std::cout << "created StdoutFileLogger" << std::endl;
         }
@@ -103,9 +101,5 @@ class StdoutFileLogger : public BasicFileLogger, public ILogMessageObserver
         void WriteLogMessage(const std::string& logMsg)
         {
             std::cout << logMsg << std::endl;
-            //m_stdoutFile << logMsg.c_str() << std::endl;
         }
-
-    //protected:
-        //std::ostream& m_stdoutFile;
 };

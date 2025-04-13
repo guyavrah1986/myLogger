@@ -11,6 +11,7 @@ BasicLogger::BasicLogger()
     // The defualt ctor created the stdout logger type 
     // It also set the log level to INFO
     cout << "sizeof(StdoutFileLogger) is:" << sizeof(StdoutFileLogger) << endl;
+
     auto stdoutObserver = new(StdoutFileLogger);
     this->Attach(stdoutObserver, MY_LOGGER_STDOUT);
 }
@@ -18,19 +19,15 @@ BasicLogger::BasicLogger()
 BasicLogger::~BasicLogger()
 {
     cout << "about to remove all observers from the map" << endl;
-    for (auto &it : m_observersMap)
+    for (auto const&it : m_observersMap)
     {
         if (it.first == MY_LOGGER_STDOUT)
         {
             delete it.second;
-            it.second = nullptr;
         }
-
-        cout << "erasing observer of type:" << it.first << " entry from map" <<  endl;
-        m_observersMap.erase(it.first);
     }
 
-    m_observersMap.clear();
+    cout << "done removing all observers from the map" << endl;
 }
 
 void BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet)
