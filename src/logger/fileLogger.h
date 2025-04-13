@@ -89,20 +89,23 @@ class StdoutFileLogger : public BasicFileLogger, public ILogMessageObserver
     public:
         StdoutFileLogger()
             : BasicFileLogger()
-            , m_stdoutFile(std::cout)
+            //, m_stdoutFile(std::cout)
         {
             std::cout << "created StdoutFileLogger" << std::endl;
         }
 
-        virtual ~StdoutFileLogger() {}
+        virtual ~StdoutFileLogger()
+        {
+            std::cout << "StdoutFileLogger::~StdoutFileLogger" << std::endl;
+        }
 
          // Observer API
         void WriteLogMessage(const std::string& logMsg)
         {
-            std::cout << "got log message:" << logMsg << std::endl;
-            m_stdoutFile << logMsg.c_str() << std::endl;
+            std::cout << logMsg << std::endl;
+            //m_stdoutFile << logMsg.c_str() << std::endl;
         }
 
-    protected:
-        std::ostream& m_stdoutFile;
+    //protected:
+        //std::ostream& m_stdoutFile;
 };
