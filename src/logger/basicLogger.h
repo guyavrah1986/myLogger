@@ -34,7 +34,7 @@ class BasicLogger : public MyLoggerInterface, ILogMessageSubject
         BasicLogger& operator=(const BasicLogger& rhs) = delete;
         
         // Log control APIs
-        virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) override;
+        virtual void MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) override;
         virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) override;
         virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) override;
         //virtual bool MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType) override;
@@ -42,7 +42,7 @@ class BasicLogger : public MyLoggerInterface, ILogMessageSubject
         // Subject APIs
         virtual void Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) override;
         virtual void Detach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) override;
-        virtual void SendMessageToAllOutputDestinations() override;
+        virtual void SendMessageToAllOutputDestinations(IN const std::string& logMsg) override;
         
         // Write to log APIs
         virtual void Error(IN const std::string& logMsg) override;

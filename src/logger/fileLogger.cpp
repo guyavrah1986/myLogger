@@ -7,12 +7,12 @@ using namespace std;
 BasicFileLogger::BasicFileLogger()
     : m_shouldRotateFile(false)
 {
-
+    cout << "BasicFileLogger::BasicFileLogger" << endl;
 }
 
 BasicFileLogger::~BasicFileLogger()
 {
-
+    cout << "BasicFileLogger::~BasicFileLogger" << endl;
 }
 
 bool BasicFileLogger::FileLoggerShouldRotateFile() const

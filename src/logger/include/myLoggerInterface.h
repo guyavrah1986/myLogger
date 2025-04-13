@@ -1,15 +1,13 @@
 #pragma once
 
-#include <string>
-
 #include "../../utils/utils.h"
 
 enum MyLoggerLogLevel
 {
-  ERROR = 0,
-  WARN,
-  DEBUG,
-  INFO
+  MY_LOGGER_ERROR = 0,
+  MY_LOGGER_WARN,
+  MY_LOGGER_DEBUG,
+  MY_LOGGER_INFO
 };
 
 enum MyLoggerOutputDestination
@@ -24,9 +22,8 @@ class MyLoggerInterface
   public:
     // Initialization APIs
 
-
     // Log control APIs
-    virtual bool MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) = 0;
+    virtual void MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) = 0;
     virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
     virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
     //virtual bool MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType) = 0;

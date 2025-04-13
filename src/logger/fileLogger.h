@@ -1,11 +1,9 @@
 #pragma once
 
-#include <string>
 #include <fstream>
 #include <ostream>
 
 #include "specificDestinationLoggerWriteInterface.h"
-#include "../utils/utils.h"
 
 /* 
 The purpose of this interface is to be able to add/modify (if desired) some "extra"/current

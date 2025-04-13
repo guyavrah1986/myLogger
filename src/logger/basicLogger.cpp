@@ -6,7 +6,7 @@
 using namespace std;
 
 BasicLogger::BasicLogger()
-    : m_currLogLevel(INFO)
+    : m_currLogLevel(MY_LOGGER_INFO)
 {
     // The defualt ctor created the stdout logger type 
     // It also set the log level to INFO
@@ -29,7 +29,7 @@ BasicLogger::~BasicLogger()
     }
 }
 
-bool BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet)
+void BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet)
 {
     m_currLogLevel = logLevelToSet;
 }
@@ -37,11 +37,24 @@ bool BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToS
 void BasicLogger::MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
     // Call the Subject Attach API
+    if (MY_LOGGER_STDOUT == outputDestination)
+    {
+        // here we only need to actually enable it
+        return;
+    }
+
+    // In the other types of output destinations, we need to make sure that 
+    // indeed there is the respective ILogMessageObserver object, if not, print
+    // a message and return false ("error")
 }
 
 void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination)
 {
-    // Call the Subject Detach API
+    if (m_observersMap.find(outputDestination) == m_observersMap.end())
+    {
+        cout << "the output destination type:" << outputDestination << ", is not present (make sure you initialized it)" << endl;
+        return;
+    }
 }
 
 /*
@@ -97,14 +110,52 @@ void BasicLogger::Detach(IN ILogMessageObserver* observer, IN const enum MyLogge
     m_observersMap.erase(it);
 }
 
-void BasicLogger::SendMessageToAllOutputDestinations()
+void BasicLogger::SendMessageToAllOutputDestinations(IN const string& logMsg)
 {
-
+    for (auto const& it : m_observersMap)
+    {
+        it.second->WriteLogMessage(logMsg);
+    }
 }
 
+void BasicLogger::Error(IN const string& logMsg)
+{
+    if (shouldWriteLogMessage(MY_LOGGER_ERROR))
+    {
+        this->SendMessageToAllOutputDestinations(logMsg);
+    }
+}
+
+void BasicLogger::Warn(IN const std::string& logMsg)
+{
+    if (shouldWriteLogMessage(MY_LOGGER_WARN))
+    {
+        this->SendMessageToAllOutputDestinations(logMsg);
+    }
+}
+
+void BasicLogger::Debug(IN const std::string& logMsg)
+{
+    if (shouldWriteLogMessage(MY_LOGGER_DEBUG))
+    {
+        this->SendMessageToAllOutputDestinations(logMsg);
+    }
+}
+
+void BasicLogger::Info(IN const std::string& logMsg)
+{
+    if (shouldWriteLogMessage(MY_LOGGER_INFO))
+    {
+        this->SendMessageToAllOutputDestinations(logMsg);
+    }
+}
+
+// ============================================================================
+// Private methods:
+// ============================================================================
 bool BasicLogger::shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const
 {
-    if (m_currLogLevel >= msgLogLevel)
+    if (msgLogLevel <= m_currLogLevel)
     {
         return true;
     }
