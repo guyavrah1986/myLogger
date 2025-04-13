@@ -5,6 +5,49 @@
 
 using namespace std;
 
+class SampleClass
+{
+	public:
+		SampleClass()
+		{
+			cout << "SampleClass::SampleClass" << endl;
+		}
+
+		~SampleClass()
+		{
+			cout << "SampleClass::~SampleClass" << endl;
+		}
+
+		void InitLog(MyLoggerInterface* logger)
+		{
+			this->m_classLogger = logger;
+		}
+
+		virtual void Error(IN const string& logMsg) override
+		{
+			
+		}
+
+		virtual void Warn(IN const string& logMsg) override
+		{
+
+		}
+		
+		virtual void Debug(IN const string& logMsg) override
+		{
+
+		}
+		
+		virtual void Info(IN const string& logMsg) override
+		{
+
+		}
+
+	private:
+		const string m_classLogPrefix = "SampleClass:";
+		MyLoggerInterface* m_classLogger;
+};
+
 void createLoggerForStdoutOnlyExample()
 {
 	const string funcName = "createLoggerForStdoutOnlyExample - ";
@@ -71,10 +114,11 @@ void createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample()
 	basicLogger.Info(logMsg);
 	cout << funcName + "END" << endl;
 } 
+
 /*
 This is the entry point for a sample application that utilizes the
-different logger capabilities. Uncomment the desired sample method
-you wish to run.
+different logger capabilities. Uncomment (and re-compile) the desired
+sample method you wish to run.
 */
 int main(int argc, char** argv)
 {
