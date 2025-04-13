@@ -12,4 +12,4 @@ target_include_directories(${exeName} PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           )
                         
-target_link_libraries(${exeName} myLoggerLib pthread)
+target_link_libraries(${exeName} myLoggerLib myUtilsLib pthread)

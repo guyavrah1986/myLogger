@@ -16,6 +16,8 @@ include_directories(src)
 
 add_subdirectory(src/logger)
 
+add_subdirectory(src/utils)
+
 add_subdirectory(src)
 
 add_subdirectory(tests)

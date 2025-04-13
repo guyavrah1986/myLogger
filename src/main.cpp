@@ -24,6 +24,13 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 			Info(msg);
 		}
 
+		void someFuncThatWriteTextFormatMessage()
+		{
+			string msg = "hello {}";
+			const string text = "world";
+			Info(msg, text);
+		}
+
 		void InitLog(MyWriteToLoggInterface* logger)
 		{
 			this->m_classLogger = logger;
@@ -47,6 +54,12 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 		virtual void Info(IN const string& logMsg) override
 		{
 			m_classLogger->Info(m_classLogPrefix + logMsg);
+		}
+        
+		virtual void Info(IN string& logMsg, IN const string& text) override
+		{
+			string newMsg = m_classLogPrefix + logMsg;
+			m_classLogger->Info(newMsg, text);
 		}
 
 	private:
@@ -136,6 +149,7 @@ void createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample()
 	SampleClassWithBasicLog c;
 	c.InitLog(&basicLogger);
 	c.someFunc();
+	c.someFuncThatWriteTextFormatMessage();
 	cout << funcName + "END" << endl;
 } 
 

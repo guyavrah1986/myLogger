@@ -56,6 +56,9 @@ TEST(SanityTestLogger, createFileOnlyLoggerWriteSingleInfoMessage_VerifyOnlyThis
     
         EXPECT_EQ(true, numLines == 1);
         //EXPECT_EQ(line.compare(logMsg), 0);
+
+        // Now write a log line with the text support flavour API
+        
     }
 
     // Cleanup before terminating test

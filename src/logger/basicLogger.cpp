@@ -124,7 +124,7 @@ void BasicLogger::Error(IN const string& logMsg)
     }
 }
 
-void BasicLogger::Warn(IN const std::string& logMsg)
+void BasicLogger::Warn(IN const string& logMsg)
 {
     if (shouldWriteLogMessage(MY_LOGGER_WARN))
     {
@@ -132,7 +132,7 @@ void BasicLogger::Warn(IN const std::string& logMsg)
     }
 }
 
-void BasicLogger::Debug(IN const std::string& logMsg)
+void BasicLogger::Debug(IN const string& logMsg)
 {
     if (shouldWriteLogMessage(MY_LOGGER_DEBUG))
     {
@@ -140,8 +140,19 @@ void BasicLogger::Debug(IN const std::string& logMsg)
     }
 }
 
-void BasicLogger::Info(IN const std::string& logMsg)
+void BasicLogger::Info(IN const string& logMsg)
 {
+    if (shouldWriteLogMessage(MY_LOGGER_INFO))
+    {
+        this->SendMessageToAllOutputDestinations(logMsg);
+    }
+}
+
+void BasicLogger::Info(IN string& logMsg, IN const string& text)
+{
+    cout << "before replace logMsg is:" << logMsg << endl;
+    UtilsReplaceStrings(logMsg, "{}", text);
+    cout << "after replace logMsg is:" << logMsg << endl;
     if (shouldWriteLogMessage(MY_LOGGER_INFO))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
