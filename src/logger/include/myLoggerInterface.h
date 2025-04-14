@@ -20,14 +20,10 @@ enum MyLoggerOutputDestination
 class MyWriteToLoggInterface
 {
   public:
-    virtual void Error(IN const std::string& logMsg) = 0;
-    virtual void Warn(IN const std::string& logMsg) = 0;
-    virtual void Debug(IN const std::string& logMsg) = 0;
-    virtual void Info(IN const std::string& logMsg) = 0;
     virtual void Error(IN std::string& logMsg, IN const std::string& text) = 0;
     virtual void Warn(IN std::string& logMsg, IN const std::string& text) = 0;
     virtual void Debug(IN std::string& logMsg, IN const std::string& text) = 0;
-    virtual void Info(IN std::string& logMsg, IN const std::string& text) = 0;
+    virtual void Info(IN std::string& logMsg, IN const std::string& text="") = 0;
 };
 
 class MyControlLogInterface
@@ -36,5 +32,4 @@ class MyControlLogInterface
     virtual void MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) = 0;
     virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
     virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) = 0;
-    //virtual bool MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType) = 0;
 };

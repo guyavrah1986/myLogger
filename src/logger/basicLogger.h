@@ -54,14 +54,10 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         virtual void SendMessageToAllOutputDestinations(IN const std::string& logMsg) override;
         
         // Write to log APIs
-        virtual void Error(IN const std::string& logMsg) override;
-        virtual void Warn(IN const std::string& logMsg) override;
-        virtual void Debug(IN const std::string& logMsg) override;
-        virtual void Info(IN const std::string& logMsg) override;
-        virtual void Error(IN std::string& logMsg, IN const std::string& text) override;
-        virtual void Warn(IN std::string& logMsg, IN const std::string& text) override;
-        virtual void Debug(IN std::string& logMsg, IN const std::string& text) override;
-        virtual void Info(IN std::string& logMsg, IN const std::string& text) override;
+        virtual void Error(IN std::string& logMsg, IN const std::string& text="") override;
+        virtual void Warn(IN std::string& logMsg, IN const std::string& text="") override;
+        virtual void Debug(IN std::string& logMsg, IN const std::string& text="") override;
+        virtual void Info(IN std::string& logMsg, IN const std::string& text="") override;
 
     protected:
         enum MyLoggerLogLevel m_currLogLevel;

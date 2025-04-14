@@ -102,29 +102,11 @@ void BasicLogger::SendMessageToAllOutputDestinations(IN const string& logMsg)
     }
 }
 
-void BasicLogger::Error(IN const string& logMsg)
-{
-    lock_guard<mutex> lock(mtx);
-    if (shouldWriteLogMessage(MY_LOGGER_ERROR))
-    {
-        this->SendMessageToAllOutputDestinations(logMsg);
-    }
-}
-
 void BasicLogger::Error(IN string& logMsg, IN const string& text)
 {
     lock_guard<mutex> lock(mtx);
     UtilsReplaceStrings(logMsg, m_curlyBracesTextReplacment, text);
     if (shouldWriteLogMessage(MY_LOGGER_ERROR))
-    {
-        this->SendMessageToAllOutputDestinations(logMsg);
-    }
-}
-
-void BasicLogger::Warn(IN const string& logMsg)
-{
-    lock_guard<mutex> lock(mtx);
-    if (shouldWriteLogMessage(MY_LOGGER_WARN))
     {
         this->SendMessageToAllOutputDestinations(logMsg);
     }
@@ -140,15 +122,6 @@ void BasicLogger::Warn(IN string& logMsg, IN const string& text)
     }
 }
 
-void BasicLogger::Debug(IN const string& logMsg)
-{
-    lock_guard<mutex> lock(mtx);
-    if (shouldWriteLogMessage(MY_LOGGER_DEBUG))
-    {
-        this->SendMessageToAllOutputDestinations(logMsg);
-    }
-}
-
 void BasicLogger::Debug(IN string& logMsg, IN const string& text)
 {
     lock_guard<mutex> lock(mtx);
@@ -159,6 +132,7 @@ void BasicLogger::Debug(IN string& logMsg, IN const string& text)
     }
 }
 
+/*
 void BasicLogger::Info(IN const string& logMsg)
 {
     lock_guard<mutex> lock(mtx);
@@ -167,11 +141,15 @@ void BasicLogger::Info(IN const string& logMsg)
         this->SendMessageToAllOutputDestinations(logMsg);
     }
 }
-
+*/
 void BasicLogger::Info(IN string& logMsg, IN const string& text)
 {
     lock_guard<mutex> lock(mtx);
-    UtilsReplaceStrings(logMsg, m_curlyBracesTextReplacment, text);
+    if (text != "")
+    {
+        UtilsReplaceStrings(logMsg, m_curlyBracesTextReplacment, text);
+    }
+
     if (shouldWriteLogMessage(MY_LOGGER_INFO))
     {
         this->SendMessageToAllOutputDestinations(logMsg);

@@ -22,7 +22,7 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 
 		void someFunc()
 		{
-			const string msg = "some message";
+			string msg = "some message";
 			Info(msg);
 		}
 
@@ -38,45 +38,25 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 			this->m_classLogger = logger;
 		}
 
-		virtual void Error(IN const string& logMsg) override
-		{
-			m_classLogger->Error(m_classLogPrefix + logMsg);
-		}
-
-		virtual void Error(IN string& logMsg, IN const string& text) override
+		virtual void Error(IN string& logMsg, IN const string& text="") override
 		{
 			string newMsg = m_classLogPrefix + logMsg;
 			m_classLogger->Error(newMsg, text);
 		}
 
-		virtual void Warn(IN const string& logMsg) override
-		{
-			m_classLogger->Warn(m_classLogPrefix + logMsg);
-		}
-		
-		virtual void Warn(IN string& logMsg, IN const string& text) override
+		virtual void Warn(IN string& logMsg, IN const string& text="") override
 		{
 			string newMsg = m_classLogPrefix + logMsg;
 			m_classLogger->Warn(newMsg, text);
 		}
 
-		virtual void Debug(IN const string& logMsg) override
-		{
-			m_classLogger->Debug(m_classLogPrefix +  logMsg);
-		}
-		
-		virtual void Debug(IN string& logMsg, IN const string& text) override
+		virtual void Debug(IN string& logMsg, IN const string& text="") override
 		{
 			string newMsg = m_classLogPrefix + logMsg;
 			m_classLogger->Debug(newMsg, text);
 		}
 
-		virtual void Info(IN const string& logMsg) override
-		{
-			m_classLogger->Info(m_classLogPrefix + logMsg);
-		}
-        
-		virtual void Info(IN string& logMsg, IN const string& text) override
+		virtual void Info(IN string& logMsg, IN const string& text="") override
 		{
 			string newMsg = m_classLogPrefix + logMsg;
 			m_classLogger->Info(newMsg, text);
@@ -217,11 +197,10 @@ void createLoggerForStdoutAndFileAndMemory()
 	// disable it (and enable back when you wish to).
 	ILogMessageObserver* fileObserver = new FileLogger(fullPath.c_str());
     basicLogger.Attach(fileObserver, MY_LOGGER_FILE);
-	logMsg = "now this line will (again) be also in the (new) log file!";
-	basicLogger.Info(logMsg);
+	logMsg = "now this line will {} be also in the (new) log file!";
+	basicLogger.Info(logMsg, "again");
 	cout << funcName + "END" << endl;
 } 
-
 
 /*
 This is the entry point for a sample application that utilizes the
