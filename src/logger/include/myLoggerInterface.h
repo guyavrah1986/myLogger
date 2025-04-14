@@ -20,9 +20,9 @@ enum MyLoggerOutputDestination
 class MyWriteToLoggInterface
 {
   public:
-    virtual void Error(IN std::string& logMsg, IN const std::string& text) = 0;
-    virtual void Warn(IN std::string& logMsg, IN const std::string& text) = 0;
-    virtual void Debug(IN std::string& logMsg, IN const std::string& text) = 0;
+    virtual void Error(IN std::string& logMsg, IN const std::string& text="") = 0;
+    virtual void Warn(IN std::string& logMsg, IN const std::string& text="") = 0;
+    virtual void Debug(IN std::string& logMsg, IN const std::string& text="") = 0;
     virtual void Info(IN std::string& logMsg, IN const std::string& text="") = 0;
 };
 
