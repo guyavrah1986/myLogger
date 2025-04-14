@@ -57,7 +57,6 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         virtual void Debug(IN std::string& logMsg, IN const std::string& text) override;
         virtual void Info(IN std::string& logMsg, IN const std::string& text) override;
 
-
     protected:
         enum MyLoggerLogLevel m_currLogLevel;
         std::map<MyLoggerOutputDestination, LoggerIsEnabledPair> m_observersMap;

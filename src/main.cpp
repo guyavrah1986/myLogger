@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "logger/basicLogger.h"
+#include "logger/memoryLogger.h"
 
 using namespace std;
 
@@ -169,6 +170,39 @@ void createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample()
 	c.someFunc();
 	c.someFuncThatWriteTextFormatMessage();
 	cout << funcName + "END" << endl;
+}
+
+void createLoggerForStdoutAndFileAndMemory()
+{
+	const string funcName = "createLoggerForStdoutAndFileAndMemory - ";
+	cout << funcName + "START" << endl;
+
+	// By default the BasicLogger outputs message only to stdout
+	// and is set to log level INFO
+	const string fileName = "exampleFile.txt";
+	const filesystem::path cwdPath= std::filesystem::current_path(); 
+    cout << funcName + "current working directory is:" << cwdPath.c_str() << endl;
+    filesystem::path fullPath = cwdPath;
+    fullPath /= fileName;
+	cout << funcName + "creating logger for both stdout and file:" << fullPath.c_str() << endl;
+	
+	// Make sure there is no file from previous execution
+	if (filesystem::exists(filesystem::path(fullPath.c_str())))
+	{
+		cout << "removing file:" << fullPath.c_str() << " from prev runs" << endl;
+		remove(fullPath.c_str());
+	}
+
+	BasicLogger basicLogger(fullPath.c_str());
+	string logMsg = "first line will NOT go to memory";
+	basicLogger.Info(logMsg);
+
+	// Now create a "user specific" memory logger and add it to the "main logger"
+	ILogMessageObserver* memLoggerPtr = new BasicMemoryLogger();
+	basicLogger.Attach(memLoggerPtr, MY_LOGGER_MEMORY);
+	logMsg = "this line will appear also in memory log";
+	basicLogger.Info(logMsg);
+	cout << funcName + "END" << endl;
 } 
 
 /*
@@ -186,7 +220,9 @@ int main(int argc, char** argv)
 	
 	//createLoggerForStdoutOnlyExample();
 	//createLoggerForStdoutAndFileExample();
-	createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample();
+	//createLoggerForStdoutOnlyWithClassThatSetItsOwnTagExample();
+	createLoggerForStdoutAndFileAndMemory();
+
 	cout << "main - end" << endl;
 	return 0;
 }

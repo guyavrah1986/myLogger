@@ -52,22 +52,6 @@ void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputD
     this->disableEnableLogger(outputDestination, false);
 }
 
-/*
-This method enables the client of this class to add a new customized logger of its own.
-It returns true if the logger provided was added successfully, false otherwise.
-
-bool BasicLogger::MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType)
-{
-    if (nullptr == loggerToAdd)
-    {
-        cout << "logger of type:" << loggerType << " providied is NULL, does not add it" << endl;
-        return false;
-    }
-
-
-}
-*/
-
 void BasicLogger::Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType)
 {
 

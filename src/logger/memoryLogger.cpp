@@ -12,6 +12,7 @@ BasicMemoryLogger::BasicMemoryLogger()
 
 BasicMemoryLogger::~BasicMemoryLogger()
 {
+    cout << "BasicMemoryLogger::~BasicMemoryLogger" << endl;
     m_memBuff.clear();
 }
 
