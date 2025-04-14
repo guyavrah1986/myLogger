@@ -20,10 +20,17 @@ no such object, nothing will take place.
 
 Implementation notes:
 ---------------------
-The decision to have a map of observers is to be able to enable/disable them easily.
+1) The decision to have a map of observers is to be able to enable/disable them easily.
 Note that because it is a map in which the key is the output
-destination enum, so it is not possible to have several specific loggers from the same
+destination enum, it is not possible to have several loggers from the same
 type (for example, if the user wish to have two log files).
+2) To enable the user (client) of this class to add (and remove) its "own" loggers of choice, the
+Attach&Detach APIs were added. They have a mutex.lock within each one of them. In addition and for
+simplicty, in each one of the constructors of this class, there is one logger that is "implictly"
+created for the user. If we were to add a mutex.lock there as well, we will encounter a deadlock --> the
+assumption is that any of the two constructors of this class will NOT be called from several threads at
+the same time. If this is a hard thing to ask, then these ctors need to be changed so that they WON'T create
+logger within them, thus the user will have to create them himself.
 */
 class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface, public ILogMessageSubject
 {
@@ -40,11 +47,10 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         virtual void MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) override;
         virtual void MyLoggerEnableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) override;
         virtual void MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputDestination outputDestination) override;
-        //virtual bool MyLoggerAddOutputDestinationLogger(IN ILogMessageObserver* loggerToAdd, IN const enum MyLoggerOutputDestination loggerType) override;
 
         // Subject APIs
         virtual void Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) override;
-        virtual void Detach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType) override;
+        virtual void Detach(IN const enum MyLoggerOutputDestination loggerType) override;
         virtual void SendMessageToAllOutputDestinations(IN const std::string& logMsg) override;
         
         // Write to log APIs

@@ -34,6 +34,9 @@ BasicLogger::~BasicLogger()
     cout << "done removing all observers from the map" << endl;
 }
 
+// ============================================================================
+// Public methods:
+// ============================================================================
 void BasicLogger::MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet)
 {
     lock_guard<mutex> lock(mtx);
@@ -54,7 +57,7 @@ void BasicLogger::MyLoggerDisableOutputDestination(IN const enum MyLoggerOutputD
 
 void BasicLogger::Attach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType)
 {
-
+    lock_guard<mutex> lock(mtx);
     if (nullptr == observer)
     {
         cout << "got a NULL observer" << endl;
@@ -72,22 +75,17 @@ void BasicLogger::Attach(IN ILogMessageObserver* observer, IN const enum MyLogge
     cout << "added logger of type:" << loggerType << endl;
 }
 
-void BasicLogger::Detach(IN ILogMessageObserver* observer, IN const enum MyLoggerOutputDestination loggerType)
+void BasicLogger::Detach(IN const enum MyLoggerOutputDestination loggerType)
 {
-    const auto it = m_observersMap.find(loggerType);
+    lock_guard<mutex> lock(mtx);
+    const auto& it = m_observersMap.find(loggerType);
     if (it == m_observersMap.end())
     {
         cout << "logger of type:" << loggerType << " does not exist, do not remove the provided logger" << endl;
         return;
     }
-    else if (it->second.first != observer)
-    {
-        cout << "logger of type:" << loggerType << " exists, but the provided one is not the one in the map" << endl;
-        return;
-    }
 
-    // remove it from map
-    // TODO: if normal pointer - need to delete it before!!
+    delete it->second.first;
     m_observersMap.erase(it);
 }
 

@@ -3,6 +3,7 @@
 
 #include "logger/basicLogger.h"
 #include "logger/memoryLogger.h"
+#include "logger/fileLogger.h"
 
 using namespace std;
 
@@ -202,8 +203,25 @@ void createLoggerForStdoutAndFileAndMemory()
 	basicLogger.Attach(memLoggerPtr, MY_LOGGER_MEMORY);
 	logMsg = "this line will appear also in memory log";
 	basicLogger.Info(logMsg);
+
+	// Now detach the file logger
+	cout << funcName + "detaching the log file:" << endl;
+	basicLogger.Detach(MY_LOGGER_FILE);
+	logMsg = "this line will NOT appear in the file";
+	basicLogger.Info(logMsg);
+
+	// Now attach the file logger again
+	// NOTE: If you re-attaching the FileLogger with file name the same
+	// as the one that was before (to the detached FileLogger), the file
+	// will be overwritten! If you only wish to pause writing to log, simply
+	// disable it (and enable back when you wish to).
+	ILogMessageObserver* fileObserver = new FileLogger(fullPath.c_str());
+    basicLogger.Attach(fileObserver, MY_LOGGER_FILE);
+	logMsg = "now this line will (again) be also in the (new) log file!";
+	basicLogger.Info(logMsg);
 	cout << funcName + "END" << endl;
 } 
+
 
 /*
 This is the entry point for a sample application that utilizes the
