@@ -67,7 +67,7 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
 
     private:
         mutable std::mutex mtx;
-        const std::string m_curlyBracesTextReplacment = "{}";
+        static constexpr std::string m_curlyBracesTextReplacment = "{}";
         bool shouldWriteLogMessage(IN const enum MyLoggerLogLevel msgLogLevel) const;
         bool disableEnableLogger(IN const enum MyLoggerOutputDestination outputDestination, IN const bool isToEnable);
 };

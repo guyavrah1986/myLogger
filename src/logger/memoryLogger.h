@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "../utils/utils.h"
 #include "specificDestinationLoggerWriteInterface.h"
 
 /* 
@@ -36,7 +35,7 @@ class BasicMemoryLogger : public MemoryLoggerInterface, public ILogMessageObserv
     BasicMemoryLogger();
     virtual ~BasicMemoryLogger();
 
-    // Non copyable& non movable class
+    // Non copyable&non movable class
     BasicMemoryLogger(const BasicMemoryLogger& other) = delete;
     BasicMemoryLogger& operator=(const BasicMemoryLogger& rhs) = delete;
     BasicMemoryLogger(const BasicMemoryLogger&& other) = delete;
@@ -48,5 +47,5 @@ class BasicMemoryLogger : public MemoryLoggerInterface, public ILogMessageObserv
 
   private:
     std::vector<char> m_memBuff;
-    const size_t MAX_BUFF_SIZE = 1024;
+    static constexpr size_t MAX_BUFF_SIZE = 1024;
 };

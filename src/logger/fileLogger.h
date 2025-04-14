@@ -44,12 +44,14 @@ its inherent RAII implementation.
 class BasicFileLogger : public FileLoggerInterface
 {
     public:
-        explicit BasicFileLogger();
+        BasicFileLogger();
         virtual ~BasicFileLogger();
 
-        // Non copiable class
+        // Non copyable& non moveable class
         BasicFileLogger(const BasicFileLogger& other) = delete;
         BasicFileLogger& operator=(const BasicFileLogger& rhs) = delete;
+        BasicFileLogger(const BasicFileLogger&& other) = delete;
+        BasicFileLogger& operator=(const BasicFileLogger&& rhs) = delete;
 
         // FileLogger interface API 
         virtual bool FileLoggerShouldRotateFile() const override;
@@ -60,16 +62,24 @@ class BasicFileLogger : public FileLoggerInterface
         bool m_shouldRotateFile;
 };
 
+/*
+This class holds implementation for a basic File logger. It inherites the basic logic from its
+parent class and adds (mainly) the Observer API. Its objective is to write log messages to a file
+in ths host file system.
+NOTE: If an instance of this class that was created with file name "myFile.txt" is deleted and then
+another object is created with the exact same name (and path) for the file name - the exising "fileName"
+will be overwritten. By holding the file "handle" as a stack based std::ofstream class member, we assure
+that whenever the FileLogger instance is deleted, the respective file will be closed (sort of RAII idiom).
+*/
 class FileLogger : public BasicFileLogger, public ILogMessageObserver
 {
     public:
-        FileLogger(IN const std::string& fileName)
+        explicit FileLogger(IN const std::string& fileName)
             : BasicFileLogger()
             , m_file(fileName)
         {
 
         }
-
         virtual ~FileLogger() {}
 
         // Non copyable& non movable class
@@ -89,6 +99,13 @@ class FileLogger : public BasicFileLogger, public ILogMessageObserver
         std::ofstream m_file;
 };
 
+/*
+The motivation behind having the StdoutFileLogger inherites as well from the BasicFileLogger
+was due to the fact that essentially stdout is also a file. As of current implementation of it
+and its parent, it does not "gain allot" from this inheritence, but if some relevant logic will be
+added to the parent at later time, then he can benefit from it. Otherwise, this inheritance can be
+eliminated.
+*/
 class StdoutFileLogger : public BasicFileLogger, public ILogMessageObserver
 {
     public:

@@ -2,11 +2,15 @@
 #include <iostream>
 
 #include "logger/basicLogger.h"
-#include "logger/memoryLogger.h"
 #include "logger/fileLogger.h"
+#include "logger/memoryLogger.h"
 
 using namespace std;
 
+/*
+This class is a simple class that illustrate how one can implement the MyWriteToLoggInterface
+to have its class being able to add a tag to the log format.
+*/
 class SampleClassWithBasicLog : public MyWriteToLoggInterface
 {
 	public:
@@ -67,6 +71,9 @@ class SampleClassWithBasicLog : public MyWriteToLoggInterface
 		MyWriteToLoggInterface* m_classLogger;
 };
 
+//=============================================================================
+// Samples functions:
+//=============================================================================
 void createLoggerForStdoutOnlyExample()
 {
 	const string funcName = "createLoggerForStdoutOnlyExample - ";
