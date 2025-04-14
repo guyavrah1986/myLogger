@@ -39,9 +39,11 @@ class BasicLogger : public MyWriteToLoggInterface, public MyControlLogInterface,
         explicit BasicLogger(IN const std::string& fileName);
         virtual ~BasicLogger();
 
-        // Non copyable class
+        // Non copyable& non movable
         BasicLogger(const BasicLogger& other) = delete;
         BasicLogger& operator=(const BasicLogger& rhs) = delete;
+        BasicLogger(const BasicLogger&& other) = delete;
+        BasicLogger& operator=(const BasicLogger&& rhs) = delete;
         
         // Log control APIs
         virtual void MyLoggerSetLogLevel(IN const enum MyLoggerLogLevel logLevelToSet) override;

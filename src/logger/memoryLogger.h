@@ -36,9 +36,11 @@ class BasicMemoryLogger : public MemoryLoggerInterface, public ILogMessageObserv
     BasicMemoryLogger();
     virtual ~BasicMemoryLogger();
 
-    // Non copyable class
+    // Non copyable& non movable class
     BasicMemoryLogger(const BasicMemoryLogger& other) = delete;
     BasicMemoryLogger& operator=(const BasicMemoryLogger& rhs) = delete;
+    BasicMemoryLogger(const BasicMemoryLogger&& other) = delete;
+    BasicMemoryLogger& operator=(const BasicMemoryLogger&& rhs) = delete;
 
     virtual void WriteLogMessage(IN const std::string& logMsg) override;
     virtual bool MemoryLoggerIsAbleWriteToMemory(IN const std::string& logMsg) const override;
