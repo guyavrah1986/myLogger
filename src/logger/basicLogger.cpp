@@ -132,16 +132,6 @@ void BasicLogger::Debug(IN string& logMsg, IN const string& text)
     }
 }
 
-/*
-void BasicLogger::Info(IN const string& logMsg)
-{
-    lock_guard<mutex> lock(mtx);
-    if (shouldWriteLogMessage(MY_LOGGER_INFO))
-    {
-        this->SendMessageToAllOutputDestinations(logMsg);
-    }
-}
-*/
 void BasicLogger::Info(IN string& logMsg, IN const string& text)
 {
     lock_guard<mutex> lock(mtx);

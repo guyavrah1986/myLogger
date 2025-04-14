@@ -13,8 +13,8 @@ typedef std::pair<ILogMessageObserver*, bool> LoggerIsEnabledPair;
 This is the base class that holds implementation of the common functunalities for
 any logger that will be used. It can be considerd as "loggers orchatrator".
 By default it logs to stdout. If this output destination is not desired, it needs to
-be manually disabled.
-For each type logger type which is NOT stdout, BEFORE it can be enabled, a respective
+be manually disabled after the instance of this class is instaniated.
+For each logger type which is NOT stdout, BEFORE it can be enabled, a respective
 object needs to be supplied. If a logger type is attempted to be enabled but there is
 no such object, nothing will take place.
 

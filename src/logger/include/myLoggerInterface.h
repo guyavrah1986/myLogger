@@ -17,6 +17,11 @@ enum MyLoggerOutputDestination
   MY_LOGGER_MEMORY
 };
 
+/*
+This is the very minium API that is needed write messages (in different verbosities).
+It should be implemented by any object that wishes to "orchatrate" logging functunalities
+and/or any object that wishes to have a customized tag.
+*/
 class MyWriteToLoggInterface
 {
   public:
@@ -26,6 +31,9 @@ class MyWriteToLoggInterface
     virtual void Info(IN std::string& logMsg, IN const std::string& text="") = 0;
 };
 
+/*
+This interface objective is to enable the client of the logger to set it according to its needs.
+*/
 class MyControlLogInterface
 {
   public:
